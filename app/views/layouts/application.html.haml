@@ -7,5 +7,5 @@
     = stylesheet_link_tag    'application', media: 'all'
     %meta(name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0")
   %body
-    %h2 LINEメッセージ集計
+    %h2= link_to 'LINEメッセージ集計', root_path
     = yield
