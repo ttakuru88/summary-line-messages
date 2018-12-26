@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
   create_table "summaries", force: :cascade do |t|
     t.string "name"
     t.string "uuid", null: false
+    t.date "start_at"
+    t.date "end_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uuid"], name: "index_summaries_on_uuid", unique: true
@@ -22,6 +24,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
 
   create_table "users", force: :cascade do |t|
     t.integer "summary_id"
+    t.string "name"
     t.integer "messages_count", default: 0
     t.integer "kusas_count", default: 0
     t.integer "stamps_count", default: 0
