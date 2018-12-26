@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
     t.integer "kusas_count", default: 0
     t.integer "stamps_count", default: 0
     t.integer "photos_count", default: 0
+    t.date "start_at"
+    t.date "end_at"
     t.text "message_count_per_hour"
     t.index ["summary_id"], name: "index_users_on_summary_id"
   end

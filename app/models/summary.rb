@@ -8,10 +8,12 @@ class Summary < ApplicationRecord
 
   def import_from!(uploaded_file)
     new_users = {}
+    current_date = nil
     File.open(uploaded_file.path, 'r').read.split("\n").each do |line|
       if DAY_FORMAT === line
-        self.start_at ||= Time.parse(line)
-        self.end_at = Time.parse(line)
+        current_date = Time.parse(line)
+        self.start_at ||= current_date
+        self.end_at = current_date
         next
       end
       next unless TIME_FORMAT === line
@@ -19,7 +21,7 @@ class Summary < ApplicationRecord
       date, name, text = line.split("\t").map(&:chomp)
       next unless text
 
-      new_users[name] ||= {messages_count: 0, kusas_count: 0, photos_count: 0, stamps_count: 0, message_count_per_hour: Array.new(24) { 0 }}
+      new_users[name] ||= {start_at: current_date, messages_count: 0, kusas_count: 0, photos_count: 0, stamps_count: 0, message_count_per_hour: Array.new(24) { 0 }}
 
       new_users[name][:messages_count] += 1
       new_users[name][:stamps_count] += 1 if text == '[スタンプ]'
@@ -30,6 +32,7 @@ class Summary < ApplicationRecord
 
       h, m = date.split(':').map(&:to_i)
       new_users[name][:message_count_per_hour][h] += 1
+      new_users[name][:end_at] = current_date
     end
 
     importable_new_users = new_users.map do |name, data|
