@@ -63,7 +63,7 @@ class Summary < ApplicationRecord
   end
 
   def messages_count
-    users.sum(&:messages_count)
+    @messages_count ||= users.sum(&:messages_count)
   end
 
   def kusas_count

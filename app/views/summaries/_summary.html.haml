@@ -19,11 +19,10 @@
 
 %details
   %summary 時間帯別
-  %table
-    - 4.times do |ah|
+  %table.per-h
+    - 24.times do |h|
       %tr
-        - (ah * 6).upto((ah + 1) * 6 - 1) do |h|
-          %th #{h}時
-      %tr
-        - (ah * 6).upto((ah + 1) * 6 - 1) do |h|
-          %td= model.messages_count_per_hour[h]
+        %th #{h}時
+        %td= model.messages_count_per_hour[h]
+        %td.ratio
+          .bar{style: "width: #{model.active_rates[h] * 2}px"} &nbsp;

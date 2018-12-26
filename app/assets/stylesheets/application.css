@@ -23,3 +23,20 @@ body {
   border: solid 1px #ccc;
   padding: 5px;
  }
+
+table.per-h {
+  font-size: 0.6rem;
+}
+
+table.per-h th,
+table.per-h td {
+  padding: 0px;
+  border: none;
+  text-align: right;
+}
+table.per-h td.ratio {
+  text-align: left;
+}
+.bar {
+  background-color: blue;
+}
