@@ -15,7 +15,7 @@
     %td= model.messages_count
     %td= model.kusas_count
     - model.pickup_words.each do |word|
-      %th= model.count_per_pickup_word[word]
+      %td= model.count_per_pickup_word[word]
 
 %details
   %summary 時間帯別
