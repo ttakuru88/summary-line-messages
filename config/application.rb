@@ -29,5 +29,18 @@ module SummaryLineMessages
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.load_defaults 5.2
+
+    # config.paths.add 'lib', eager_load: true
+    config.time_zone = 'Tokyo'
+    config.i18n.available_locales = [:ja]
+    config.i18n.default_locale = :ja
+
+    config.generators do |g|
+      g.assets nil
+      g.helper nil
+      g.system_tests nil
+    end
   end
 end
