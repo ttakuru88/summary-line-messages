@@ -1,0 +1,23 @@
+%table
+  %tr
+    %th 発言数
+    %th スタンプ
+    %th 写真
+    %th 草www
+
+  %tr
+    %td= model.messages_count
+    %td= model.stamps_count
+    %td= model.messages_count
+    %td= model.kusas_count
+
+%details
+  %summary 時間帯別
+  %table
+    - 4.times do |ah|
+      %tr
+        - (ah * 6).upto((ah + 1) * 6 - 1) do |h|
+          %th #{h}時
+      %tr
+        - (ah * 6).upto((ah + 1) * 6 - 1) do |h|
+          %td= model.message_count_per_hour[h]
