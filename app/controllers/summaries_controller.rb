@@ -15,6 +15,7 @@ class SummariesController < ApplicationController
   end
 
   def show
+    @summary = Summary.find_by!(uuid: params[:id])
   end
 
   private

@@ -40,6 +40,26 @@ class Summary < ApplicationRecord
     save!
   end
 
+  def messages_count
+    users.sum(&:messages_count)
+  end
+
+  def kusas_count
+    users.sum(&:kusas_count)
+  end
+
+  def photos_count
+    users.sum(&:photos_count)
+  end
+
+  def stamps_count
+    users.sum(&:stamps_count)
+  end
+
+  def message_count_per_hour
+    @message_count_per_hour ||= 24.times.map { |h| users.sum { |u| u.message_count_per_hour[h] } }
+  end
+
   private
 
   def generate_uuid
