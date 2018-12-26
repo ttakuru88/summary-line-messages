@@ -5,6 +5,7 @@ class CreateSummaries < ActiveRecord::Migration[5.2]
       t.string :uuid, null: false, index: {unique: true}
       t.date :start_at
       t.date :end_at
+      t.text :pickup_words
       t.timestamps
     end
   end

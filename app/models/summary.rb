@@ -1,6 +1,8 @@
 class Summary < ApplicationRecord
   has_many :users, dependent: :delete_all
 
+  serialize :pickup_words, Array
+
   before_create :generate_uuid
 
   DAY_FORMAT = /^\d\d\d\d\/\d\d\/\d\d/.freeze

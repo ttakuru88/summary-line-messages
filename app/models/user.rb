@@ -1,11 +1,6 @@
 class User < ApplicationRecord
   belongs_to :summary
 
-  def message_count_per_hour=(array)
-    super(array.join(','))
-  end
-
-  def message_count_per_hour
-    super.to_s.split(',').map(&:to_i)
-  end
+  serialize :message_count_per_hour, Array
+  serialize :count_per_pickup_word, Hash
 end

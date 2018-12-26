@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
     t.string "uuid", null: false
     t.date "start_at"
     t.date "end_at"
+    t.text "pickup_words"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uuid"], name: "index_summaries_on_uuid", unique: true
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
     t.date "start_at"
     t.date "end_at"
     t.text "message_count_per_hour"
+    t.text "count_per_pickup_word"
     t.index ["summary_id"], name: "index_users_on_summary_id"
   end
 
