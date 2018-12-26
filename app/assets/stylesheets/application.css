@@ -40,3 +40,7 @@ table.per-h td.ratio {
 .bar {
   background-color: blue;
 }
+
+.alert {
+  color: red;
+}
