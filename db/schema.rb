@@ -35,9 +35,10 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
     t.integer "photos_count", default: 0
     t.date "start_at"
     t.date "end_at"
-    t.text "message_count_per_hour"
+    t.text "messages_count_per_hour"
     t.text "count_per_pickup_word"
     t.index ["summary_id"], name: "index_users_on_summary_id"
   end
 
+  add_foreign_key "users", "summaries"
 end
