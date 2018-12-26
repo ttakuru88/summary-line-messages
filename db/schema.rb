@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2018_12_26_004132) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "summaries", force: :cascade do |t|
     t.string "name"
     t.string "uuid", null: false
@@ -23,7 +26,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_004132) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "summary_id"
+    t.bigint "summary_id"
     t.string "name"
     t.integer "messages_count", default: 0
     t.integer "kusas_count", default: 0
