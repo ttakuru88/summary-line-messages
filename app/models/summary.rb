@@ -1,14 +1,16 @@
 class Summary < ApplicationRecord
   has_many :users, dependent: :delete_all
 
-  serialize :pickup_words, Array
+  # serialize :pickup_words, Array
 
   before_create :generate_uuid
 
   DAY_FORMAT = /^\d\d\d\d\/\d\d\/\d\d/.freeze
   TIME_FORMAT = /^\d\d:\d\d/.freeze
 
-  def import_from!(uploaded_file)
+  def import_from!(uploaded_file, pickup_words:)
+    self.pickup_words = pickup_words
+
     new_users = {}
     current_date = nil
     File.open(uploaded_file.path, 'r').read.split("\n").each do |line|
@@ -23,24 +25,39 @@ class Summary < ApplicationRecord
       date, name, text = line.split("\t").map(&:chomp)
       next unless text
 
-      new_users[name] ||= {start_at: current_date, messages_count: 0, kusas_count: 0, photos_count: 0, stamps_count: 0, message_count_per_hour: Array.new(24) { 0 }}
+      new_users[name] ||= {
+        start_at: current_date,
+        messages_count: 0,
+        kusas_count: 0,
+        photos_count: 0,
+        stamps_count: 0,
+        messages_count_per_hour: Array.new(24) { 0 },
+        count_per_pickup_word: Hash.new { 0 },
+      }
 
       new_users[name][:messages_count] += 1
       new_users[name][:stamps_count] += 1 if text == '[スタンプ]'
       new_users[name][:photos_count] += 1 if text == '[写真]'
+      pickup_words.each do |word|
+        new_users[name][:count_per_pickup_word][word] += text.count(word)
+      end
 
       kusa = text.match(/w+$/)
       new_users[name][:kusas_count] += kusa[0].size if kusa
 
       h, m = date.split(':').map(&:to_i)
-      new_users[name][:message_count_per_hour][h] += 1
+      new_users[name][:messages_count_per_hour][h] += 1
       new_users[name][:end_at] = current_date
     end
 
-    importable_new_users = new_users.map do |name, data|
-      data.merge({summary_id: id, name: name, message_count_per_hour: data[:message_count_per_hour].join(',')})
+    new_users.each do |name, data|
+      users.create!(data.merge({
+        summary_id: id,
+        name: name,
+        messages_count_per_hour: data[:messages_count_per_hour],
+        count_per_pickup_word: data[:count_per_pickup_word],
+      }))
     end
-    User.import(importable_new_users)
 
     save!
   end
@@ -61,8 +78,8 @@ class Summary < ApplicationRecord
     users.sum(&:stamps_count)
   end
 
-  def message_count_per_hour
-    @message_count_per_hour ||= 24.times.map { |h| users.sum { |u| u.message_count_per_hour[h] } }
+  def messages_count_per_hour
+    @messages_count_per_hour ||= 24.times.map { |h| users.sum { |u| u.messages_count_per_hour[h] } }
   end
 
   private

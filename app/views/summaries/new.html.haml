@@ -1,4 +1,18 @@
 = form_with model: @summary, local: true, multipart: true do |f|
+  %label 会話履歴のファイル
+  ：
   = file_field_tag :line_messages, accept: 'text/plain'
+  %br
+  %label 追加集計語句１
+  ：
+  = text_field_tag :word1
+  %br
+  %label 追加集計語句２
+  ：
+  = text_field_tag :word2
+  %br
+  %label 追加集計語句３
+  ：
+  = text_field_tag :word3
   %br
   = f.submit '集計する'

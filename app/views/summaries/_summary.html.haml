@@ -22,4 +22,4 @@
           %th #{h}時
       %tr
         - (ah * 6).upto((ah + 1) * 6 - 1) do |h|
-          %td= model.message_count_per_hour[h]
+          %td= model.messages_count_per_hour[h]
