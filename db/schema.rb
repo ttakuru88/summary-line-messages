@@ -10,6 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2018_12_26_004132) do
+
+  create_table "summaries", force: :cascade do |t|
+    t.string "name"
+    t.string "uuid", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uuid"], name: "index_summaries_on_uuid", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.integer "summary_id"
+    t.integer "messages_count", default: 0
+    t.integer "kusas_count", default: 0
+    t.integer "stamps_count", default: 0
+    t.integer "photos_count", default: 0
+    t.text "message_count_per_hour"
+    t.index ["summary_id"], name: "index_users_on_summary_id"
+  end
 
 end
