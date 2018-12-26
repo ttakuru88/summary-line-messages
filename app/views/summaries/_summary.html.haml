@@ -6,12 +6,16 @@
     %th スタンプ
     %th 写真
     %th 草www
+    - model.pickup_words.each do |word|
+      %th= word
 
   %tr
     %td= model.messages_count
     %td= model.stamps_count
     %td= model.messages_count
     %td= model.kusas_count
+    - model.pickup_words.each do |word|
+      %th= model.count_per_pickup_word[word]
 
 %details
   %summary 時間帯別

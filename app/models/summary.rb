@@ -1,7 +1,7 @@
 class Summary < ApplicationRecord
   has_many :users, dependent: :delete_all
 
-  # serialize :pickup_words, Array
+  serialize :pickup_words, Array
 
   before_create :generate_uuid
 
@@ -80,6 +80,10 @@ class Summary < ApplicationRecord
 
   def messages_count_per_hour
     @messages_count_per_hour ||= 24.times.map { |h| users.sum { |u| u.messages_count_per_hour[h] } }
+  end
+
+  def count_per_pickup_word
+    @count_per_pickup_word ||= pickup_words.map { |w| [w, users.sum { |u| u.count_per_pickup_word[w] }] }.to_h
   end
 
   private
